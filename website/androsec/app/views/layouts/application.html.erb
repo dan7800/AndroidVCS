@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Androsec</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+  <!-- Latest Jquery -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<!--
+<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+  <div class="container">
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li class="active">
+          <%= link_to "Home", home_path %>
+        </li>
+        <li>
+          <%= link_to "Analytics", analytics_path %>
+        </li>
+        <li>
+          <%= link_to "About", about_path %>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+-->
+
+<!-- Navigation -->
+<nav style="border-bottom: 1px solid #f0f0f0" class="navbar" role="navigation">
+  <div class="container">
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li>
+          <%= link_to "Home", home_path %>
+        </li>
+        <li>
+          <%= link_to "Analytics", analytics_path %>
+        </li>
+        <li>
+          <%= link_to "About", about_path %>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container -->
+</nav>
+
+<%= yield %>
+
+<!-- Footer -->
+<footer>
+  <div style="text-align: center">
+      <p>Copyright &copy; Jacob Peterson, Andres Ruiz, Andrew Filipski, Daniel Krutz</p>
+  </div>
+</footer>
+
+</body>
+</html>

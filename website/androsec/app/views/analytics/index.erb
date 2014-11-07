@@ -1,0 +1,29 @@
+<h1>Analytics</h1>
+
+<h2><%= @records_array.size %></h2>
+
+<table>
+  <thead>
+  <tr>
+    <th>VersionID</th>
+    <th>AppID</th>
+    <th>Version</th>
+    <th>Build Number</th>
+    <th>PermissionID</th>
+    <th>Permission</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @records_array.each do |row| %>
+      <tr>
+        <td><%= row["versionID"] %></td>
+        <td><%= row["appID"] %></td>
+        <td><%= row["version"] %></td>
+        <td><%= row["build_number"] %></td>
+        <td><%= row["permissionID"] %></td>
+        <td><%= row["name"] %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
