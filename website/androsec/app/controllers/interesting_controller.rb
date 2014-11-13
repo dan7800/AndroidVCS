@@ -1,4 +1,4 @@
-class AnalyticsController < ApplicationController
+class InterestingController < ApplicationController
   # GET /
   def index
     #@joinResult = Version.joins('JOIN overpermission ON overpermission.versionID = version.versionID')

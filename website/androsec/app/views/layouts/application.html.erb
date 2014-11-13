@@ -12,48 +12,48 @@
   <!-- Optional theme -->
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 
+  <!-- Data tables bootstrap theme css -->
+  <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.css">
+
   <!-- Latest Jquery -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
+  <!-- Data tables js -->
+  <script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+
+  <!-- Data tables bootstrap js -->
+  <script src="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
 </head>
 <body>
-<!--
-<header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
-  <div class="container">
-    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav">
-        <li class="active">
-          <%= link_to "Home", home_path %>
-        </li>
-        <li>
-          <%= link_to "Analytics", analytics_path %>
-        </li>
-        <li>
-          <%= link_to "About", about_path %>
-        </li>
-      </ul>
-    </nav>
-  </div>
-</header>
--->
 
 <!-- Navigation -->
-<nav style="border-bottom: 1px solid #f0f0f0" class="navbar" role="navigation">
+<header id="top" class="header">
+<nav id="main-nav" class="main-nav" role="navigation">
   <div class="container">
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li>
+        <li class="nav-item <%= 'active' if current_page?(home_path) %>">
           <%= link_to "Home", home_path %>
         </li>
-        <li>
+        <li class="nav-item <%= 'active' if current_page?(analytics_path) %>">
           <%= link_to "Analytics", analytics_path %>
         </li>
-        <li>
+        <li class="nav-item <%= 'active' if current_page?(top_apps_path) %>">
+          <%= link_to "Top Apps", top_apps_path %>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(categories_path) %>">
+          <%= link_to "Categories", categories_path %>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(interesting_path) %>">
+          <%= link_to "Interesting Findings", interesting_path %>
+        </li>
+        <li class="nav-item <%= 'active' if current_page?(about_path) %>">
           <%= link_to "About", about_path %>
         </li>
       </ul>
@@ -62,7 +62,7 @@
   </div>
   <!-- /.container -->
 </nav>
-
+</header>
 <%= yield %>
 
 <!-- Footer -->

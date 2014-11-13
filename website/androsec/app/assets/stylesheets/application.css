@@ -13,3 +13,59 @@
  *= require_tree .
  *= require_self
  */
+
+.header {
+    padding: 15px 0;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .main-nav button {
+    background: #99cc00;
+    color: #fff;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.header .main-nav button:focus {
+    outline: none;
+}
+
+.header .main-nav button .icon-bar {
+    background: #fff;
+}
+
+.header .main-nav .nav .nav-item {
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.header .main-nav .nav .nav-item.active a {
+    color: #99cc00;
+    background: none;
+}
+
+.header .main-nav .nav .nav-item a {
+    color: #444;
+}
+
+.header .main-nav .nav .nav-item a:hover {
+    color: #99cc00;
+    background: none;
+}
+
+.header .main-nav .nav .nav-item a:focus,
+.header .main-nav .nav .nav-item a:active {
+    outline: none;
+    background: none;
+}
+
+.header .main-nav .nav .nav-item.active {
+    color: #99cc00;
+}
+
+.header .main-nav .nav .nav-item.last {
+    margin-right: 0;
+}

@@ -10,6 +10,14 @@ Rails.application.routes.draw do
   get 'home' => 'home#index'
 
   get 'analytics' => 'analytics#index'
+  get '/analytics/:id', to: 'analytics#show'
+
+
+  get 'top_apps' => 'top_apps#index'
+
+  get 'categories' => 'categories#index'
+
+  get 'interesting' => 'interesting#index'
 
   get 'about' => 'about#index'
 
