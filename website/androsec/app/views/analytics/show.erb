@@ -1,0 +1,272 @@
+<!-- Highcharts charting library -->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+<div class="analytics" >
+  <h1 style="margin-bottom:50px"><%= @appdata.first["auto_name"] %></h1>
+
+  <h2>General Information</h2>
+
+
+  <h2>Vulnerability Analysis</h2>
+
+  <div id="permissionsChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+  <div id="androriskChart" style="width:800px height:400px"></div>
+
+  <h2 style="margin-top: 50px">Defect Analysis</h2>
+
+  <div id="locChart" style="width:800px height:400px"></div>
+
+  <div id="violationsChart" style="width:800px height:400px"></div>
+  <button id="violationsToggle" class="btn btn-info">Show average violations</button>
+
+  <div id="complexityChart" style="width:800px height:400px"></div>
+
+<script type="text/javascript">
+
+        $('#permissionsChart').highcharts({
+            title: {
+                text: 'Over/Under Permissions - Per Version',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Average Under Permissions - <%= @averageUnderPermission %> Average Over Permissions - <%= @averageOverPermission %>',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Versions'
+                },
+                categories: <%= raw(@labels_array) %>,
+                labels:{
+                    maxStaggerLines: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '# Permissions'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Over Permissions',
+                data: <%= @num_overpermissions_array %>
+            }, {
+                name: 'Under Permissions',
+                data: <%= @num_underpermissions_array %>
+            }]
+        });
+
+
+        $('#androriskChart').highcharts({
+            title: {
+                text: 'Androrisk Score - Per Version',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Average Androrisk Score - <%= @averageAndrorisk %>',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Versions'
+                },
+                categories: <%= raw(@androrisk_labels_array) %>,
+                labels:{
+                    maxStaggerLines: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Androrisk Score'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Androrisk Score',
+                data: <%= @androrisk_array %>
+            }]
+        });
+
+
+        $('#violationsChart').highcharts({
+            title: {
+                text: 'Violations - Per Version',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Average Violations - <%= @averageViolations %>',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Versions'
+                },
+                categories: <%= raw(@sonar_labels_array) %>,
+                labels:{
+                    maxStaggerLines: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '# Violations'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: '# Violations',
+                data: <%= @violations_array %>
+            }]
+        });
+
+        // Toggle button to show average line on chart
+        var hasPlotLine = false,
+                violationsChart = $('#violationsChart').highcharts();
+                $violationsToggle = $('#violationsToggle');
+        $violationsToggle.click(function () {
+            if (!hasPlotLine) {
+                violationsChart.yAxis[0].addPlotLine({
+                    value: <%= @averageViolations %>,
+                    color: 'red',
+                    width: 2,
+                    label: {text: "Average Violations"
+                    },
+                    id: 'plot-line-1'
+                });
+                $violationsToggle.html('Hide average violations');
+            } else {
+                violationsChart.yAxis[0].removePlotLine('plot-line-1');
+                $violationsToggle.html('Show average violations');
+            }
+            hasPlotLine = !hasPlotLine;
+        });
+
+
+        $('#complexityChart').highcharts({
+            title: {
+                text: 'Complexity - Per Version',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Average Complexity - <%= @averageComplexity %>',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Versions'
+                },
+                categories: <%= raw(@sonar_labels_array) %>,
+                labels:{
+                    maxStaggerLines: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Complexity'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'Complexity',
+                data: <%= @complexity_array %>
+            }]
+        });
+
+
+        $('#locChart').highcharts({
+            title: {
+                text: 'Lines of Code(LOC) - Per Version',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Average LOC - <%= @averageLoc %>',
+                x: -20
+            },
+            xAxis: {
+                title: {
+                    text: 'Versions'
+                },
+                categories: <%= raw(@sonar_labels_array) %>,
+                labels:{
+                    maxStaggerLines: 2
+                }
+            },
+            yAxis: {
+                title: {
+                    text: '# LOC'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: '# LOC',
+                data: <%= @loc_array %>
+            }]
+        });
+
+</script>
