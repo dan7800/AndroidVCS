@@ -14,12 +14,21 @@ class AnalyticsController < ApplicationController
 
   # GET /analytics/1
   def show
+    # Get git version information
+    sqlGit = "select Count(*) AS numCommits FROM GitHistory WHERE GitHistory.appID = " + params[:id]
+    @numCommits = ActiveRecord::Base.connection.execute(sqlGit).first["numCommits"]
+    sqlGit = "select Count(DISTINCT author) AS numAuthors FROM GitHistory WHERE GitHistory.appID = " + params[:id]
+    @numAuthors = ActiveRecord::Base.connection.execute(sqlGit).first["numAuthors"]
+
+    # Pull app specific data
     sqlAppdata = "select * from AppData WHERE appId = " + params[:id]
     @appdata = ActiveRecord::Base.connection.execute(sqlAppdata)
 
+    # Grab all versions for this app
     sqlVersions = "select * from Version WHERE appID = " + params[:id] + " ORDER BY build_number ASC"
     @versions = ActiveRecord::Base.connection.execute(sqlVersions)
 
+    # Create empty arrays that will store the information used to display various graphs
     @num_overpermissions_array = Array.new
     @num_underpermissions_array = Array.new
     @androrisk_array = Array.new
@@ -69,9 +78,9 @@ class AnalyticsController < ApplicationController
     sqlAverage = "select COUNT(*) AS numVersions from Vulnerability"
     numVersions = ActiveRecord::Base.connection.execute(sqlAverage).first["numVersions"]
     sqlAverage = "select COUNT(*) AS numOverpermissions from OverPermission"
-    @averageOverPermission = ActiveRecord::Base.connection.execute(sqlAverage).first["numOverpermissions"] / numVersions.to_f
+    @averageOverPermission = (ActiveRecord::Base.connection.execute(sqlAverage).first["numOverpermissions"] / numVersions.to_f).round(2)
     sqlAverage = "select COUNT(*) AS numUnderpermissions from UnderPermission"
-    @averageUnderPermission = ActiveRecord::Base.connection.execute(sqlAverage).first["numUnderpermissions"] / numVersions.to_f
+    @averageUnderPermission = (ActiveRecord::Base.connection.execute(sqlAverage).first["numUnderpermissions"] / numVersions.to_f).round(2)
     sqlAverage = "select AVG(fuzzy_risk) AS averageAndrorisk from Vulnerability"
     @averageAndrorisk = ActiveRecord::Base.connection.execute(sqlAverage).first["averageAndrorisk"].round(2)
     sqlAverage = "select AVG(lines) AS averageLOC from CodingStandard"

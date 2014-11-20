@@ -1,27 +1,50 @@
 <!-- Highcharts charting library -->
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="/javascripts/highcharts.js"></script>
+<script src="/javascripts/exporting.js"></script>
 
 <div class="analytics" >
   <h1 style="margin-bottom:50px"><%= @appdata.first["auto_name"] %></h1>
 
-  <h2>General Information</h2>
+  <div style="margin-bottom: 50px">
+      <div class="row">
+        <div class="col-md-3">
+          <h3 class="subtitle">Number of Versions</h3>
+          <p><%= @versions.size %></p>
+        </div>
+        <div class="col-md-3">
+          <h3 class="subtitle">Number of Commits</h3>
+          <p><%= @numCommits %></p>
+        </div>
+        <div class="col-md-3">
+          <h3 class="subtitle">Number of Contributors</h3>
+          <p><%= @numAuthors %></p>
+        </div>
+        <div class="col-md-3">
+          <h3 class="subtitle">Current Version</h3>
+          <p><%= @appdata.first["current_version"] %></p>
+        </div>
+      </div>
+  </div>
 
+  <div style="margin-bottom: 50px">
+      <h2>Vulnerability Analysis</h2>
 
-  <h2>Vulnerability Analysis</h2>
+      <div id="permissionsChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
-  <div id="permissionsChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div id="androriskChart" style="width:800px height:400px"></div>
+  </div>
 
-  <div id="androriskChart" style="width:800px height:400px"></div>
+  <div>
+      <h2>Defect Analysis</h2>
 
-  <h2 style="margin-top: 50px">Defect Analysis</h2>
+      <div id="locChart" style="width:800px height:400px"></div>
 
-  <div id="locChart" style="width:800px height:400px"></div>
+      <div id="violationsChart" style="width:800px height:400px"></div>
+      <!--<button id="violationsToggle" class="btn btn-info">Show average violations</button>-->
 
-  <div id="violationsChart" style="width:800px height:400px"></div>
-  <button id="violationsToggle" class="btn btn-info">Show average violations</button>
-
-  <div id="complexityChart" style="width:800px height:400px"></div>
+      <div id="complexityChart" style="width:800px height:400px"></div>
+  </div>
+</div>
 
 <script type="text/javascript">
 
@@ -31,7 +54,7 @@
                 x: -20 //center
             },
             subtitle: {
-                text: 'Average Under Permissions - <%= @averageUnderPermission %> Average Over Permissions - <%= @averageOverPermission %>',
+                text: 'Average Under Permissions - <%= @averageUnderPermission %> --- Average Over Permissions - <%= @averageOverPermission %>',
                 x: -20
             },
             xAxis: {

@@ -69,3 +69,7 @@
 .header .main-nav .nav .nav-item.last {
     margin-right: 0;
 }
+
+p{
+    font-size: 15px;
+}

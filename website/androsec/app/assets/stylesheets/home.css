@@ -10,8 +10,8 @@ body {
     display: block;
     width: 100%;
     text-align: center;
-    /*background: url('http://wallruru.com/wp-content/uploads/2014/08/Grey-Background-48.jpg') no-repeat center center scroll;*/
-    background-color: #f0f0f0;
+    /*background: url('http://guistyles.com/wp-content/uploads/2007/10/neutral_no_text_by_alxboss.jpg') no-repeat center center scroll;*/
+    background-color: #F5F5F5;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -135,4 +135,11 @@ footer {
         margin-bottom: 10px;
         margin-left: 0;
     }
+}
+
+.btn-theme {
+    background: none repeat scroll 0% 0% #9C0;
+    border-color: #83B600;
+    color: #FFF;
+    outline: 0px none;
 }
