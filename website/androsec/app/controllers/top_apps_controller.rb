@@ -2,12 +2,12 @@ class TopAppsController < ApplicationController
   # GET /
   def index
     @app_names = ["F-Droid", "2048", "Music", "GitHub", "VLC"]
-    app_ids = [357, 465, 380, 1136, 1053]
+    @app_ids = [474, 280, 817, 735, 1150]
 
     @overpermission_array = Array.new
     @violation_array = Array.new
 
-    app_ids.each do |id|
+    @app_ids.each do |id|
 
       # Grab all versions for this app
       sqlVersions = "select * from Version WHERE appID = " + id.to_s + " ORDER BY build_number ASC"

@@ -33,6 +33,8 @@
 <script type="text/javascript">
     $(function () {
 
+        var appIds = <%= @app_ids.to_json %>;
+
         // Radialize the colors
         Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
             return {
@@ -68,6 +70,14 @@
                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                         },
                         connectorColor: 'silver'
+                    },
+                    point: {
+                        events: {
+                            // Go to app analytics page on click
+                            click: function () {
+                                location.href = "analytics/" + appIds[this.x];
+                            }
+                        }
                     }
                 }
             },
@@ -108,6 +118,14 @@
                             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                         },
                         connectorColor: 'silver'
+                    },
+                    point: {
+                        events: {
+                            // Go to app analytics page on click
+                            click: function () {
+                                location.href = "analytics/" + appIds[this.x];
+                            }
+                        }
                     }
                 }
             },

@@ -1,6 +1,7 @@
 <!-- Highcharts charting library -->
-<script src="/javascripts/highcharts.js"></script>
-<script src="/javascripts/exporting.js"></script>
+<script src="/javascripts/highcharts.src.js"></script>
+<script src="/javascripts/exporting.src.js"></script>
+<script src="/javascripts/no-data-to-display.src.js"></script>
 
 <div class="analytics" >
   <h1 style="margin-bottom:50px"><%= @appdata.first["auto_name"] %></h1>
@@ -61,12 +62,13 @@
                 title: {
                     text: 'Versions'
                 },
-                categories: <%= raw(@labels_array) %>,
+                categories: <%= raw(@permission_labels_array) %>,
                 labels:{
                     maxStaggerLines: 2
                 }
             },
             yAxis: {
+                min: 0,
                 title: {
                     text: '# Permissions'
                 },
@@ -114,13 +116,19 @@
                 }
             },
             yAxis: {
+                min: 0,
+                max: 100,
                 title: {
                     text: 'Androrisk Score'
                 },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
+                plotLines : [{
+                    value : <%= @averageAndrorisk %>,
+                    color : 'red',
+                    dashStyle : 'shortdash',
+                    width : 2,
+                    label : {
+                        text : 'Average Androrisk Score'
+                    }
                 }]
             },
             tooltip: {
@@ -141,11 +149,11 @@
 
         $('#violationsChart').highcharts({
             title: {
-                text: 'Violations - Per Version',
+                text: 'Violations/KLOC - Per Version',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Average Violations - <%= @averageViolations %>',
+                text: 'Average Violations/KLOC - <%= @averageViolations %>',
                 x: -20
             },
             xAxis: {
@@ -159,7 +167,7 @@
             },
             yAxis: {
                 title: {
-                    text: '# Violations'
+                    text: 'Violations/KLOC'
                 },
                 plotLines: [{
                     value: 0,
@@ -177,8 +185,8 @@
                 borderWidth: 0
             },
             series: [{
-                name: '# Violations',
-                data: <%= @violations_array %>
+                name: 'Violations/KLOC',
+                data: <%= @violations_per_array %>
             }]
         });
 
@@ -207,11 +215,11 @@
 
         $('#complexityChart').highcharts({
             title: {
-                text: 'Complexity - Per Version',
+                text: 'Complexity/KLOC - Per Version',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Average Complexity - <%= @averageComplexity %>',
+                text: 'Average Complexity/KLOC - <%= @averageComplexity %>',
                 x: -20
             },
             xAxis: {
@@ -225,7 +233,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Complexity'
+                    text: 'Complexity/KLOC'
                 },
                 plotLines: [{
                     value: 0,
@@ -243,8 +251,8 @@
                 borderWidth: 0
             },
             series: [{
-                name: 'Complexity',
-                data: <%= @complexity_array %>
+                name: 'Complexity/KLOC',
+                data: <%= @complexity_per_array %>
             }]
         });
 

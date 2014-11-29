@@ -32,24 +32,33 @@ class AnalyticsController < ApplicationController
     @num_overpermissions_array = Array.new
     @num_underpermissions_array = Array.new
     @androrisk_array = Array.new
-    @violations_array = Array.new
+    @violations_per_array = Array.new
+    @complexity_per_array = Array.new
     @loc_array = Array.new
-    @complexity_array = Array.new
 
     @labels_array = Array.new
+    @permission_labels_array = Array.new
     @androrisk_labels_array = Array.new
     @sonar_labels_array = Array.new
 
     @versions.each do |version|
-      # Get total number of overpermissions for this version
-      sqlOverpermissions = "select Count(*) as num_over_permissions from OverPermission where versionID = " + version["versionID"].to_s
-      numOverpermissions = ActiveRecord::Base.connection.execute(sqlOverpermissions)
-      @num_overpermissions_array.push(numOverpermissions.first["num_over_permissions"])
+      # Check if version has stowaway info
+      sqlPermission = "select Count(*) as count from StowawayRun where versionID = " + version["versionID"].to_s
+      hasStowaway = ActiveRecord::Base.connection.execute(sqlPermission).first["count"]
 
-      # Get total number of underpermissions for this version
-      sqlUnderpermissions = "select Count(*) as num_under_permissions from UnderPermission where versionID = " + version["versionID"].to_s
-      numUnderpermissions = ActiveRecord::Base.connection.execute(sqlUnderpermissions)
-      @num_underpermissions_array.push(numUnderpermissions.first["num_under_permissions"])
+      if hasStowaway > 0
+        # Get total number of overpermissions for this version
+        sqlOverpermissions = "select Count(*) as num_over_permissions from OverPermission where versionID = " + version["versionID"].to_s
+        numOverpermissions = ActiveRecord::Base.connection.execute(sqlOverpermissions)
+        @num_overpermissions_array.push(numOverpermissions.first["num_over_permissions"])
+
+        # Get total number of underpermissions for this version
+        sqlUnderpermissions = "select Count(*) as num_under_permissions from UnderPermission where versionID = " + version["versionID"].to_s
+        numUnderpermissions = ActiveRecord::Base.connection.execute(sqlUnderpermissions)
+        @num_underpermissions_array.push(numUnderpermissions.first["num_under_permissions"])
+
+        @permission_labels_array.push(version["version"].to_s)
+      end
 
       # Get Androrisk scores
       sqlAndrorisk = "select * from Vulnerability where versionID = " + version["versionID"].to_s
@@ -64,10 +73,11 @@ class AnalyticsController < ApplicationController
       sqlSonar = "select * from CodingStandard where versionID = " + version["versionID"].to_s
       sonarResults = ActiveRecord::Base.connection.execute(sqlSonar)
       if !sonarResults.empty?
-        @violations_array.push(sonarResults.first["violations"])
         @loc_array.push(sonarResults.first["lines"])
-        @complexity_array.push(sonarResults.first["complexity"])
         @sonar_labels_array.push(version["version"].to_s)
+
+        @violations_per_array.push(sonarResults.first["violations"]/(sonarResults.first["lines"]/1000))
+        @complexity_per_array.push(sonarResults.first["complexity"]/(sonarResults.first["lines"]/1000))
       end
 
       # Get the version identifier
@@ -86,9 +96,11 @@ class AnalyticsController < ApplicationController
     sqlAverage = "select AVG(lines) AS averageLOC from CodingStandard"
     @averageLoc = ActiveRecord::Base.connection.execute(sqlAverage).first["averageLOC"].round(0)
     sqlAverage = "select AVG(violations) AS averageViolations from CodingStandard"
-    @averageViolations = ActiveRecord::Base.connection.execute(sqlAverage).first["averageViolations"].round(0)
+    @averageViolations = ActiveRecord::Base.connection.execute(sqlAverage).first["averageViolations"]
+    @averageViolations = ( @averageViolations / (@averageLoc/1000.0) ).round(0)
     sqlAverage = "select AVG(complexity) AS averageComplexity from CodingStandard"
     @averageComplexity = ActiveRecord::Base.connection.execute(sqlAverage).first["averageComplexity"].round(0)
+    @averageComplexity = ( @averageComplexity / (@averageLoc/1000.0) ).round(0)
 
   end
 
