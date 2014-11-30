@@ -3,7 +3,7 @@
     <table id="analyticsTable" class="table table-striped table-hover" cellspacing="0" >
       <thead>
       <tr>
-        <th>AppID</th>
+        <th style="display:none;">AppID</th>
         <th>Name</th>
         <th># Versions</th>
         <th>Current Version</th>
@@ -14,7 +14,7 @@
       <tbody>
       <% @records_array.each do |row| %>
           <tr>
-            <td><%= row["appId"] %></td>
+            <td style="display:none;"><%= row["appId"] %></td>
             <td><%= row["auto_name"] %></td>
             <td><%= row["num_versions"] %></td>
             <td><%= row["current_version"] %></td>

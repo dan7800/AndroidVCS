@@ -76,8 +76,8 @@ class AnalyticsController < ApplicationController
         @loc_array.push(sonarResults.first["lines"])
         @sonar_labels_array.push(version["version"].to_s)
 
-        @violations_per_array.push(sonarResults.first["violations"]/(sonarResults.first["lines"]/1000))
-        @complexity_per_array.push(sonarResults.first["complexity"]/(sonarResults.first["lines"]/1000))
+        @violations_per_array.push( (sonarResults.first["violations"]/(sonarResults.first["lines"]/1000.0)).round(0) )
+        @complexity_per_array.push( (sonarResults.first["complexity"]/(sonarResults.first["lines"]/1000.0)).round(0) )
       end
 
       # Get the version identifier
