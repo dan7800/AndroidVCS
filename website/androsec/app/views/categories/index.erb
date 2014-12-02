@@ -1,7 +1,3 @@
-<!-- Highcharts charting library -->
-<script src="/javascripts/highcharts.js"></script>
-<script src="/javascripts/exporting.js"></script>
-
 <div class="top-apps">
 
   <div class="row" style="margin-bottom: 50px">
@@ -43,127 +39,137 @@
 </div>
 
 <script type="text/javascript">
-
-    $(function () {
-        $('#permissionsChart').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Overprivileged Apps By Category'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: <%= raw(@top_categories) %>
-            },
-            yAxis: {
-                min: 0,
+    $(document).ready(function () {
+        $(function () {
+            var chart1 = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    renderTo: 'permissionsChart'
+                },
                 title: {
-                    text: '% Overprivileged'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span>{point.key}</span>',
-                pointFormat: ': ' +
-                        '{point.y}%',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Category',
-                data: <%= @categories_over_permissions %>
+                    text: 'Overprivileged Apps By Category'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: <%= raw(@top_categories) %>
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '% Overprivileged'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span>{point.key}</span>',
+                    pointFormat: ': ' +
+                            '{point.y}%',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    {
+                        name: 'Category',
+                        data: <%= @categories_over_permissions %>
 
-            }]
+                    }
+                ]
+            });
         });
-    });
 
-    $(function () {
-        $('#androriskChart').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Androrisk Score By Category'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: <%= raw(@top_categories) %>
-            },
-            yAxis: {
-                min: 0,
+        $(function () {
+            var chart2 = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    renderTo: 'androriskChart'
+                },
                 title: {
-                    text: 'Average Androrisk Score'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span>{point.key}</span>',
-                pointFormat: ': ' +
-                        '{point.y}',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Category',
-                data: <%= @categories_androrisk %>
+                    text: 'Androrisk Score By Category'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: <%= raw(@top_categories) %>
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Average Androrisk Score'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span>{point.key}</span>',
+                    pointFormat: ': ' +
+                            '{point.y}',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    {
+                        name: 'Category',
+                        data: <%= @categories_androrisk %>
 
-            }]
+                    }
+                ]
+            });
         });
-    });
 
-    $(function () {
-        $('#violationChart').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Violations/KLOC By Category'
-            },
-            subtitle: {
-                text: ''
-            },
-            xAxis: {
-                categories: <%= raw(@top_categories) %>
-            },
-            yAxis: {
-                min: 0,
+        $(function () {
+            var chart3 = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    renderTo: 'violationChart'
+                },
                 title: {
-                    text: 'Violations/KLOC'
-                }
-            },
-            tooltip: {
-                headerFormat: '<span>{point.key}</span>',
-                pointFormat: ': ' +
-                        '{point.y}',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: 'Category',
-                data: <%= @categories_violations %>
+                    text: 'Violations/KLOC By Category'
+                },
+                subtitle: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: <%= raw(@top_categories) %>
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Violations/KLOC'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span>{point.key}</span>',
+                    pointFormat: ': ' +
+                            '{point.y}',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [
+                    {
+                        name: 'Category',
+                        data: <%= @categories_violations %>
 
-            }]
+                    }
+                ]
+            });
         });
     });
 

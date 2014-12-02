@@ -1,7 +1,3 @@
-<!-- Highcharts charting library -->
-<script src="/javascripts/highcharts.js"></script>
-<script src="/javascripts/exporting.js"></script>
-
 <div class="top-apps">
 
     <div class="row" style="margin-bottom: 50px">
@@ -31,115 +27,123 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
+    $(document).ready(function () {
+        $(function () {
 
-        var appIds = <%= @app_ids.to_json %>;
+            var appIds = <%= @app_ids.to_json %>;
 
-        // Radialize the colors
-        Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
-            return {
-                radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
-                stops: [
-                    [0, color],
-                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
-                ]
-            };
-        });
+            // Radialize the colors
+            Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                return {
+                    radialGradient: { cx: 0.5, cy: 0.3, r: 0.7 },
+                    stops: [
+                        [0, color],
+                        [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                    ]
+                };
+            });
 
-        // Build the chart
-        $('#permissionsChart').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Over Permissions for Top Applications'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.y}</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.y} Over Permissions',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            // Build the chart
+            var chart1 = new Highcharts.Chart({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    renderTo: 'permissionsChart'
+                },
+                title: {
+                    text: 'Over Permissions for Top Applications'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y} Over Permissions',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
                         },
-                        connectorColor: 'silver'
-                    },
-                    point: {
-                        events: {
-                            // Go to app analytics page on click
-                            click: function () {
-                                location.href = "analytics/" + appIds[this.x];
+                        point: {
+                            events: {
+                                // Go to app analytics page on click
+                                click: function () {
+                                    location.href = "analytics/" + appIds[this.x];
+                                }
                             }
                         }
                     }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Over Permissions',
-                data: [
-                    ['F-Droid', <%= @overpermission_array[0] %>],
-                    ['2048', <%= @overpermission_array[1] %>],
-                    ['Music', <%= @overpermission_array[2] %>],
-                    ['GitHub', <%= @overpermission_array[3] %>],
-                    ['VLC', <%= @overpermission_array[4] %>]
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        name: 'Over Permissions',
+                        data: [
+                            ['F-Droid', <%= @overpermission_array[0] %>],
+                            ['2048', <%= @overpermission_array[1] %>],
+                            ['Music', <%= @overpermission_array[2] %>],
+                            ['GitHub', <%= @overpermission_array[3] %>],
+                            ['VLC', <%= @overpermission_array[4] %>]
+                        ]
+                    }
                 ]
-            }]
-        });
+            });
 
-        // Build the chart
-        $('#violationsChart').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            title: {
-                text: 'Average Defects Per KLOC for Top Applications'
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.y}</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.y} Defects',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            // Build the chart
+            var chart2 = new Highcharts.Chart({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    renderTo: 'violationsChart'
+                },
+                title: {
+                    text: 'Average Defects Per KLOC for Top Applications'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.y} Defects',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
                         },
-                        connectorColor: 'silver'
-                    },
-                    point: {
-                        events: {
-                            // Go to app analytics page on click
-                            click: function () {
-                                location.href = "analytics/" + appIds[this.x];
+                        point: {
+                            events: {
+                                // Go to app analytics page on click
+                                click: function () {
+                                    location.href = "analytics/" + appIds[this.x];
+                                }
                             }
                         }
                     }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Defects per KLOC',
-                data: [
-                    ['F-Droid', <%= @violation_array[0] %>],
-                    ['2048', <%= @violation_array[1] %>],
-                    ['Music', <%= @violation_array[2] %>],
-                    ['GitHub', <%= @violation_array[3] %>],
-                    ['VLC', <%= @violation_array[4] %>]
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        name: 'Defects per KLOC',
+                        data: [
+                            ['F-Droid', <%= @violation_array[0] %>],
+                            ['2048', <%= @violation_array[1] %>],
+                            ['Music', <%= @violation_array[2] %>],
+                            ['GitHub', <%= @violation_array[3] %>],
+                            ['VLC', <%= @violation_array[4] %>]
+                        ]
+                    }
                 ]
-            }]
+            });
         });
     });
 </script>
