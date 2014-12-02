@@ -140,6 +140,16 @@ footer {
 .btn-theme {
     background: none repeat scroll 0% 0% #9C0;
     border-color: #83B600;
-    color: #FFF;
+    color: #ffffff;
     outline: 0px none;
+}
+
+.btn-theme:hover {
+    background: none repeat scroll 0% 0% #8CBF09;
+    color: #ffffff;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #83B600;
 }
