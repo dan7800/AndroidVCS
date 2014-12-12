@@ -3,4 +3,7 @@
   <data-source source="LOCAL" name="Rails androsec: development" uuid="ec62fae0-ee0d-4144-9f59-c7e6794e3fa5">
     <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
   </data-source>
+  <data-source source="LOCAL" name="Rails androsec: production" uuid="2f7903f8-56ad-4543-b33f-01ff6a715f3c">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
 </component>

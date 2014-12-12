@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="403661536">
+  <component name="DataSourceManagerImpl" format="xml" hash="2174828323">
     <data-source source="LOCAL" name="Rails androsec: development" uuid="ec62fae0-ee0d-4144-9f59-c7e6794e3fa5">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/db.sqlite3</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails androsec: production" uuid="2f7903f8-56ad-4543-b33f-01ff6a715f3c">
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/db.sqlite3</jdbc-url>

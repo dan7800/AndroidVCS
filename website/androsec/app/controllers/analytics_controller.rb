@@ -2,6 +2,7 @@ class AnalyticsController < ApplicationController
 
   include ActionView::Helpers::OutputSafetyHelper
   #before_action :set_versions, only: [:show]
+  before_filter -> { check_id }, only: [:show]
 
   # GET /
   def index
@@ -109,6 +110,31 @@ class AnalyticsController < ApplicationController
   def set_versions
     sql = "select * from Version WHERE appID = " + params[:id]
     @versions = ActiveRecord::Base.connection.execute(sql)
+  end
+
+  def is_number?(object)
+    true if Float(object) rescue false
+  end
+
+  def check_id
+    # Check that arg is a number and not nil
+    if !is_number?(params[:id]) || params[:id].nil?
+      render_404
+      false
+      return
+    end
+
+    # Check that arg exists in database
+    sql = "select * from AppData WHERE appId = " + params[:id]
+    result = ActiveRecord::Base.connection.execute(sql)
+    if result.empty?
+      render_404
+      false
+    end
+  end
+
+  def render_404
+    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
   end
 
 end
