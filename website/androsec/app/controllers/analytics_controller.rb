@@ -6,9 +6,6 @@ class AnalyticsController < ApplicationController
 
   # GET /
   def index
-    #@joinResult = Version.joins('JOIN overpermission ON overpermission.versionID = version.versionID')
-    #@joinResult2 = Version.joins(:overpermissions)
-    #sql = "Select * from version JOIN overpermission ON overpermission.versionID = version.versionID JOIN permission on overpermission.permissionID = permission.permissionID"
     sql = "select AppData.*, COUNT(*) AS num_versions from AppData left outer join Version ON AppData.appId = Version.appID GROUP BY AppData.appId"
     @records_array = ActiveRecord::Base.connection.execute(sql)
   end
@@ -36,6 +33,8 @@ class AnalyticsController < ApplicationController
     @violations_per_array = Array.new
     @complexity_per_array = Array.new
     @loc_array = Array.new
+    @overpermissions_array = Array.new
+    @underpermissions_array = Array.new
 
     @labels_array = Array.new
     @permission_labels_array = Array.new
@@ -48,15 +47,26 @@ class AnalyticsController < ApplicationController
       hasStowaway = ActiveRecord::Base.connection.execute(sqlPermission).first["count"]
 
       if hasStowaway > 0
-        # Get total number of overpermissions for this version
-        sqlOverpermissions = "select Count(*) as num_over_permissions from OverPermission where versionID = " + version["versionID"].to_s
-        numOverpermissions = ActiveRecord::Base.connection.execute(sqlOverpermissions)
-        @num_overpermissions_array.push(numOverpermissions.first["num_over_permissions"])
+        # Get list of overpermissions for this version
+        # Reset list for each new version, so that we have a list for the most current version at the end
+        @overpermissions_array.clear
+        sqlOverpermissions = "select Permission.name from OverPermission JOIN Permission ON OverPermission.permissionID = Permission.permissionID where versionID = " + version["versionID"].to_s
+        overpermissionsList = ActiveRecord::Base.connection.execute(sqlOverpermissions)
 
-        # Get total number of underpermissions for this version
-        sqlUnderpermissions = "select Count(*) as num_under_permissions from UnderPermission where versionID = " + version["versionID"].to_s
-        numUnderpermissions = ActiveRecord::Base.connection.execute(sqlUnderpermissions)
-        @num_underpermissions_array.push(numUnderpermissions.first["num_under_permissions"])
+        # Add each permission to list
+        overpermissionsList.each do |permission|
+          @overpermissions_array.push(permission["name"])
+        end
+        @num_overpermissions_array.push(@overpermissions_array.size)
+
+        # Get list and number of underpermissions for this version, same process as overpermissions
+        @underpermissions_array.clear
+        sqlUnderpermissions = "select Permission.name from UnderPermission JOIN Permission ON UnderPermission.permissionID = Permission.permissionID where versionID = " + version["versionID"].to_s
+        underpermissionsList = ActiveRecord::Base.connection.execute(sqlUnderpermissions)
+        underpermissionsList.each do |permission|
+          @underpermissions_array.push(permission["name"])
+        end
+        @num_underpermissions_array.push(@underpermissions_array.size)
 
         @permission_labels_array.push(version["version"].to_s)
       end

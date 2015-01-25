@@ -23,6 +23,31 @@
   </div>
 
   <div style="margin-bottom: 50px">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="subtitle">Overpermissions (Version - <%= @permission_labels_array.size == 0 ? "N/A" : @permission_labels_array.last %>)</h3>
+        <!-- List each overpermission for the last version we have info -->
+        <% @overpermissions_array.each do |permission| %>
+            <p><%= permission %></p>
+        <% end %>
+        <% if @overpermissions_array.size == 0 %>
+            <p>No Overpermissions</p>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <h3 class="subtitle">Underpermissions (Version - <%= @permission_labels_array.size == 0 ? "N/A" : @permission_labels_array.last %>)</h3>
+        <!-- List each underpermission for the last version we have info -->
+        <% @underpermissions_array.each do |permission| %>
+            <p><%= permission %></p>
+        <% end %>
+        <% if @underpermissions_array.size == 0 %>
+            <p>No Underpermissions</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom: 50px">
       <h2>Vulnerability Analysis</h2>
 
       <div id="permissionsChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
